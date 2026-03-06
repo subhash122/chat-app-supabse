@@ -1,0 +1,49 @@
+# Dependencies (will be installed fresh in container)
+node_modules
+npm-debug.log*
+
+# Build outputs (will be built fresh in container)
+.next
+out
+build
+dist
+
+# Version control (not needed in container)
+.git
+.gitignore
+
+# Environment files (will be injected at runtime or build time)
+.env
+.env.*
+!.env.example
+
+# IDE and editor files
+.idea
+.vscode
+*.swp
+*.swo
+.DS_Store
+
+# Test files
+coverage
+.nyc_output
+__tests__
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Documentation (not needed in production image)
+README.md
+docs
+*.md
+
+# Docker files (no need to copy into image)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Misc
+*.log
+*.tmp
+.cache

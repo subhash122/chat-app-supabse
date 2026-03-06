@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  chat-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # These read from environment (populated by --env-file)
+        # Usage: docker compose --env-file .env.production build
+        - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+        - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+
+    image: chat-app:latest
+    container_name: chat-app
+
+    ports:
+      - "4050:4050"
+
+    # Runtime environment variables (for server-side only vars)
+    environment:
+      - NODE_ENV=production
+      - PORT=4050
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:4050"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# ============================================
+# USAGE:
+# ============================================
+#
+# Build with environment file:
+#   docker compose --env-file .env.production build
+#
+# Build and run:
+#   docker compose --env-file .env.production up -d
+#
+# Build for different environments:
+#   docker compose --env-file .env.development build
+#   docker compose --env-file .env.staging build
+#   docker compose --env-file .env.production build
+#
+# View logs:
+#   docker compose logs -f chat-app
+#
+# Stop:
+#   docker compose down
+#
+# Rebuild and restart:
+#   docker compose --env-file .env.production up -d --build
+# ============================================
