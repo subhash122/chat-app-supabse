@@ -43,6 +43,7 @@ export function useAuth() {
       password,
       options: {
         data: { username },
+	emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
       },
     })
     return { error }
